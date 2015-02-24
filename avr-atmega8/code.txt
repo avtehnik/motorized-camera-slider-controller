@@ -1,0 +1,76 @@
+#ifndef F_CPU
+#define F_CPU 8000000UL
+#endif
+
+#define USART_BAUDRATE 9600
+#define BAUD_PRESCALE (((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
+
+#include <avr/io.h>
+#include <avr/delay.h>
+#include <avr/interrupt.h>
+
+int main (void)
+{
+	UCSRB = (1 << RXEN) | (1 << TXEN);
+	UCSRC = (1 << URSEL) | (1 << UCSZ0) | (1 << UCSZ1);
+
+	UBRRH = (BAUD_PRESCALE >> 8);
+	UBRRL = BAUD_PRESCALE;
+
+	//UCSRB |= (1 << RCXIE); // not working on atmega8
+	sei();
+	
+	while(1)
+	{
+		
+	}
+}
+
+ISR(USART_RXC_vect)
+{
+	char ReceivedByte;
+	
+	ReceivedByte = UDR;
+	
+	UDR = ReceivedByte;
+}
+
+
+void USART_Transmit( unsigned char data )
+{while ( !(UCSRA & (1<<UDRE)) ); //Ожидание опустошения буфера приема
+UDR = data; //Начало передачи данных
+}
+
+
+Enable the USART Recieve Complete interrupt (USART_RXC)
+
+
+TIMSK |= (1 << TOIE0);
+
+    sei();         //enable interrupts
+
+
+    TCCR0 |= (1 << CS02);
+
+ISR (TIMER0_OVF_vect)  // timer0 overflow interrupt
+{
+    // event to be exicuted every 4ms here
+}
+
+volatile char buf[200]; // Буфер
+volatile int bufsize = 0; // Длина строки
+volatile char ready = 0; // Получена ли строка? 
+
+
+ISR(USART_RXC_vect)
+{
+int b;
+b = UDR; // Получаем эти данные
+if (((b == 13) || (b == 10)) && (bufsize > 0)) ready = 1;
+if ((b != 13) && (b != 10) && (bufsize < sizeof(buf)-1))
+buf[bufsize++] = b;
+}
+
+
+int x = (somechar >= '0' && somechar <= '9') ? (somechar - '0') : -1;
+

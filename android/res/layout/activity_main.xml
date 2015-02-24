@@ -1,0 +1,122 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="157dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="top|center_horizontal" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/shiftView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Зміщення" />
+
+            <NumberPicker
+                android:id="@+id/shiftPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="68dp"
+                android:layout_weight="1.26" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/exposureView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="витримка" />
+
+            <NumberPicker
+                android:id="@+id/exposurePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="68dp"
+                android:layout_weight="1.26" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/pauseView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="пауза" />
+
+            <NumberPicker
+                android:id="@+id/pausePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="68dp"
+                android:layout_weight="1.26" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/stepsView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Кроки" />
+
+            <NumberPicker
+                android:id="@+id/stepsPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="68dp"
+                android:layout_weight="1.26" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" >
+
+        <Button
+            android:id="@+id/applay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="Застосувати" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="157dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/linearLayout1" >
+
+        <Button
+            android:id="@+id/moveToLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ліво" />
+
+        <Button
+            android:id="@+id/moveToRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Право" />
+    </LinearLayout>
+
+</RelativeLayout>
