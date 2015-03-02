@@ -41,6 +41,14 @@ int initUart(void){
 }
 
 
+int setDirection(int dir){
+	if(dir){
+		PORTC|=(1<<PORTC2);
+	}else{
+		PORTC&=~(1<<PORTC2);
+	}
+}
+
 int flash(void){
 	_delay_ms(1000);
 	PORTC&=~(1<<PORTC1);
@@ -48,12 +56,25 @@ int flash(void){
 	PORTC|=(1<<PORTC1);
 }
 
-int step(){
+
+int step(void){
 
 	_delay_ms(2);
 	PORTC|=(1<<PORTC0);
 	_delay_ms(2);
 	PORTC&=~(1<<PORTC0);
+}
+
+int initIntZero(void){
+
+
+	DDRD &= ~(1 << DDD2);     // Clear the PD2 pin
+    // PD2 (INT0 pin) is now an input
+
+    PORTD |= (1 << PORTD2);    // turn On the Pull-up
+    // PD0 is now an input with pull-up enabled
+    MCUCR |= (1 << ISC00);    // set INT0 to trigger on ANY logic change
+    GICR |= (1 << INT0); 
 }
 
 
@@ -81,6 +102,11 @@ int stop(void){
 
 
 
+ISR (INT0_vect)
+{
+	setDirection((PINB & (1<<PINB1))==(1<<PINB1));
+	step();
+}
 
 int initTimer(void){
 	TIMSK |= (1 << TOIE0);
@@ -94,12 +120,17 @@ int main (void){
 
    PORTB = 0x00;
    DDRB = 0xFF;
+   DDRB = 0x00000010b;
+
 
    PORTD = 0x00;
    DDRD = 0x00;
 
    initUart();
    initTimer();
+   initIntZero();
+
+
 			USART_Transmit("s");
 			USART_Transmit("t");
 			USART_Transmit("a");
@@ -215,11 +246,7 @@ ISR(USART_RXC_vect)
 		 timer = 0;
 	}
   	if(buf[0]==5){
-		if(buf[1]){
-			PORTC|=(1<<PORTC2);
-		}else{
-			PORTC&=~(1<<PORTC2);
-		}
+		setDirection(buf[1]);
 	}
   	if(buf[0]==6){
 		microSteps = buf[1];
